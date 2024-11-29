@@ -23,7 +23,8 @@ CREATE EXTENSION "uuid-ossp" SCHEMA public;
 create table if not exists public.users(
     id uuid not null primary key default uuid_generate_v4(),
     login varchar(24) not null,
-    refresh_token text
+    refresh_token text,
+    email text
 );
 
 insert into public.users(login) values('123')
