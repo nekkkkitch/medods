@@ -37,7 +37,12 @@ func (svc *TokensService) GetTokens(id uuid.UUID, ip string) (string, string, er
 		return "", "", err
 	}
 	refreshToken := svc.jwt.CreateRefreshToken()
-	err = svc.db.PutRefreshToken(id, refreshToken)
+	tokenToPut, err := bcrypt.GenerateFromPassword([]byte(refreshToken), bcrypt.DefaultCost)
+	if err != nil {
+		log.Println("Failed to crypt token:", err)
+		return "", "", err
+	}
+	err = svc.db.PutRefreshToken(id, string(tokenToPut))
 	if err != nil {
 		log.Println("Failed to put refresh token in db:", err)
 		return "", "", err

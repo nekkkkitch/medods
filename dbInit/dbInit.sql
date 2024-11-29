@@ -25,3 +25,5 @@ create table if not exists public.users(
     login varchar(24) not null,
     refresh_token text
 );
+
+insert into public.users(login) values('123')
